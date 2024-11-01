@@ -1,0 +1,23 @@
+{
+  "name": "sacv2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "pretest": "tsc .\\core\\utils\\prompt-helper.ts && node .\\core\\utils\\prompt-helper.js",
+    "test": "npx playwright test --workers 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.45.3",
+    "@types/node": "^22.0.2",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "playwright-extra": "^4.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "random-useragent": "^0.5.0"
+  }
+}
