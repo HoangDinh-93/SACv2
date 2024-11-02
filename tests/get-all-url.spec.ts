@@ -21,33 +21,33 @@ let accountList_4 = readJsonFile<Account[]>("data/account/account-4.json");
 
 const accounts = [
   {
-    email: "dinhtienhoang540@gmail.com",
-    password: "miangubucu",
+    email: "email1@gmail.com",
+    password: "password1",
     data: accountList_1,
     path: "data/url/url-1.json",
     combinedPath: "data/combined/combined-1.json",
   },
-  // {
-  //   email: "hduy65@gmail.com",
-  //   password: "kimcuong",
-  //   data: accountList_2,
-  //   path: "data/url/url-2.json",
-  //   combinedPath: "data/combined/combined-2.json",
-  // },
-  // {
-  //   email: "nganlesouting790@gmail.com",
-  //   password: "miangubucu",
-  //   data: accountList_3,
-  //   path: "data/url/url-3.json",
-  //   combinedPath: "data/combined/combined-3.json",
-  // },
-  // {
-  //   email: "jennyhastopee983@gmail.com",
-  //   password: "miangubucu",
-  //   data: accountList_4,
-  //   path: "data/url/url-4.json",
-  //   combinedPath: "data/combined/combined-4.json",
-  // },
+  {
+    email: "email2@gmail.com",
+    password: "password2",
+    data: accountList_2,
+    path: "data/url/url-2.json",
+    combinedPath: "data/combined/combined-2.json",
+  },
+  {
+    email: "email3@gmail.com",
+    password: "password3",
+    data: accountList_3,
+    path: "data/url/url-3.json",
+    combinedPath: "data/combined/combined-3.json",
+  },
+  {
+    email: "email4@gmail.com",
+    password: "password4",
+    data: accountList_4,
+    path: "data/url/url-4.json",
+    combinedPath: "data/combined/combined-4.json",
+  },
 ];
 
 test.afterAll(async () => {});
