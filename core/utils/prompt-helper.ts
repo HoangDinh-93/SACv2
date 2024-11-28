@@ -30,13 +30,14 @@ const numberToString = (number: number): string => {
   }
 };
 
-const askQuestion = (question: string): Promise<string> => {
+export const askQuestion = (question: string): Promise<string> => {
   return new Promise((resolve) => rl.question(question, resolve));
 };
 
-const processInputData = async (
+export const processInputData = async (
   start: string,
-  end: string
+  end: string,
+  option: string
 ): Promise<
   Array<{
     number: string;
@@ -62,8 +63,10 @@ const processInputData = async (
     const baseNumber = Math.floor(i / 1000) * 1000;
     const account = importData[baseNumber.toString()].accountPrefix + i;
     const password =
-      importData[baseNumber.toString()].passwordPrefix +
-      Math.floor((i - baseNumber) / 5);
+      option == "0"
+        ? importData[baseNumber.toString()].passwordPrefix
+        : importData[baseNumber.toString()].passwordPrefix +
+          Math.floor((i - baseNumber) / 5);
     const avatarPath = joinPath(
       PathConstants.PATH_TO_IMAGE,
       importData[baseNumber.toString()].avatar
@@ -78,7 +81,7 @@ const processInputData = async (
       avatar: avatarPath,
     });
   }
-
+  // rl.close();
   return exportData;
 };
 
@@ -86,11 +89,11 @@ const main = async () => {
   const filePath = path.join(__dirname, "../../data/data.json");
   const start = await askQuestion("Enter the start index: ");
   const end = await askQuestion("Enter the end index: ");
+  const option = await askQuestion("Enter password option: ");
 
-  const data = await processInputData(start, end);
+  const data = await processInputData(start, end, option);
 
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
-  rl.close();
 };
 
 main();

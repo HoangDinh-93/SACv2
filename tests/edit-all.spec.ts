@@ -7,38 +7,39 @@ import {
   writeJsonFile,
 } from "../core/utils/json-helper";
 import { Account } from "../core/models/types";
+import { profileDataProvider } from "../utils/data-provider/data-provider";
 
-const created1: Account[] = readJsonFile("data/created-account/created-1.json");
-const created2: Account[] = readJsonFile("data/created-account/created-2.json");
-const created3: Account[] = readJsonFile("data/created-account/created-3.json");
-const created4: Account[] = readJsonFile("data/created-account/created-4.json");
+// const created1: Account[] = readJsonFile("data/created-account/created-1.json");
+// const created2: Account[] = readJsonFile("data/created-account/created-2.json");
+// const created3: Account[] = readJsonFile("data/created-account/created-3.json");
+// const created4: Account[] = readJsonFile("data/created-account/created-4.json");
 
-const accounts = [
-  {
-    profile: "Profile 1",
-    data: created1,
-    createdPath: "data/created-account/created-1.json",
-    editedPath: "data/edited-account/edited-1.json",
-  },
-  {
-    profile: "Profile 2",
-    data: created2,
-    createdPath: "data/created-account/created-2.json",
-    editedPath: "data/edited-account/edited-2.json",
-  },
-  {
-    profile: "Profile 3",
-    data: created3,
-    createdPath: "data/created-account/created-3.json",
-    editedPath: "data/edited-account/edited-3.json",
-  },
-  {
-    profile: "Profile 4",
-    data: created4,
-    createdPath: "data/created-account/created-4.json",
-    editedPath: "data/edited-account/edited-4.json",
-  },
-];
+// const accounts = [
+//   {
+//     profile: "Profile 1",
+//     data: created1,
+//     createdPath: "data/created-account/created-1.json",
+//     editedPath: "data/edited-account/edited-1.json",
+//   },
+//   {
+//     profile: "Profile 2",
+//     data: created2,
+//     createdPath: "data/created-account/created-2.json",
+//     editedPath: "data/edited-account/edited-2.json",
+//   },
+//   {
+//     profile: "Profile 3",
+//     data: created3,
+//     createdPath: "data/created-account/created-3.json",
+//     editedPath: "data/edited-account/edited-3.json",
+//   },
+//   {
+//     profile: "Profile 4",
+//     data: created4,
+//     createdPath: "data/created-account/created-4.json",
+//     editedPath: "data/edited-account/edited-4.json",
+//   },
+// ];
 
 test.beforeEach(async ({ page, loginPage }) => {
   await loginPage.delay(25000);
@@ -48,19 +49,19 @@ test.afterEach(async ({ page, loginPage }) => {
   await loginPage.delay(25000);
 });
 
-for (const account of accounts) {
-  test.describe(account.profile, () => {
+for (const profile of profileDataProvider) {
+  test.describe(profile.profile, () => {
     test.beforeAll(async () => {
-      let editedList = readJsonFile<Account[]>(account.editedPath);
-      removeItems<Account>(account.data, "number", editedList);
-      writeJsonFile(account.createdPath, account.data);
+      let editedList = readJsonFile<Account[]>(profile.paths.edited);
+      removeItems<Account>(profile.createdData, "number", editedList);
+      writeJsonFile(profile.paths.created, profile.createdData);
     });
     test.afterAll(async () => {
-      let editedList = readJsonFile<Account[]>(account.editedPath);
-      removeItems<Account>(account.data, "number", editedList);
-      writeJsonFile(account.createdPath, account.data);
+      let editedList = readJsonFile<Account[]>(profile.paths.edited);
+      removeItems<Account>(profile.createdData, "number", editedList);
+      writeJsonFile(profile.paths.created, profile.createdData);
     });
-    for (const created of account.data) {
+    for (const created of profile.createdData) {
       test(`Edit account ${created.account}`, async ({
         page,
         loginPage,
@@ -78,7 +79,7 @@ for (const account of accounts) {
             created.avatar
           );
           await editProfilePage.logout();
-          updateJsonFile(account.editedPath, created);
+          updateJsonFile(profile.paths.edited, created);
         } catch (error) {
           throw error;
         }
