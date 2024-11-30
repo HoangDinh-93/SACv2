@@ -14,6 +14,7 @@ import * as path from "path";
 import * as readline from "readline";
 import { getAbsolutePath, joinPath } from "./../core/utils/path-helper";
 import { PathConstants } from "../constants/path-constants";
+import { profileDataProvider } from "../utils/data-provider/data-provider";
 
 interface Data {
   start: number;
@@ -76,6 +77,14 @@ export const processInputData = async (
 
   return exportData;
 };
+
+test.afterAll(async () => {
+  for (const profile of profileDataProvider) {
+    const createdData = readJsonFile<Account[]>(profile.paths.created);
+    removeItems<Account>(profile.accountData, "number", createdData);
+    writeJsonFile(profile.paths.account, profile.accountData);
+  }
+});
 
 test("Init", async () => {
   const profileData = readJsonFile<Accounts>("configuration/appsettings.json");
