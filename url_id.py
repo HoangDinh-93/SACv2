@@ -1,5 +1,10 @@
 import json
 
+# config = {}
+config_path = "configuration/appsettings.json"
+with open(config_path, 'r') as file:
+  config = json.load(file)
+
 while True:
   profile = 0
   url_array = []
@@ -11,12 +16,16 @@ while True:
     else:
       break
 
+  print(f"Selecting Profile {profile} with email: " + config[f"profile_{profile}"]["email"])
+
   while True: 
-    count = int(input("Number of url: "))
+    count = int(input("\nNumber of url: "))
     if count <= 0:
       print("Invalid input.")
     else:
       break
+
+  print("")
 
   for i in range(count):
     id = input(f"Enter url id {i + 1}: ")
